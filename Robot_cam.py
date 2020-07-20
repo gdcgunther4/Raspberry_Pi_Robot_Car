@@ -2,6 +2,10 @@
 # Source code from the official PiCamera package
 # http://picamera.readthedocs.io/en/latest/recipes2.html#web-streaming
 
+'''
+I got this example from https://randomnerdtutorials.com/video-streaming-with-raspberry-pi-camera/
+I don't completely understand how this works, so you should probably read the tutorial.
+'''
 import io
 import picamera
 import logging

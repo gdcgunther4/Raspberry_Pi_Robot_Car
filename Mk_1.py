@@ -1,8 +1,7 @@
-# This program utilises the cwiid Python library in order to get input over bluetooth from a wiimote.
-# The following lines of code demonstrate many of the features realted to wiimotes, such as capturing button presses and rumbling the controller.
-# I have managed to map the home button to the accelerometer - simply hold it and values will appear!
+'''
+This was inspired by the book 'Learn Robotics with Raspberry Pi
+'''
 
-# Coded by The Raspberry Pi Guy. Work based on some of Matt Hawkins's!
 import cwiid
 from adafruit_motorkit import MotorKit
 
@@ -22,8 +21,7 @@ except RuntimeError:
     quit()
 
 print ('Wiimote connection established!\n')
-print ('Go ahead and press some buttons\n')
-print ('Press PLUS and MINUS together to disconnect and quit.\n')
+
 
 time.sleep(3)
 
@@ -38,6 +36,8 @@ def moveL(speedL):
     kit.motor4.throttle = speedL
 
 while True:
+    #This section defines the wii values. In the future, I will be using NunchuckStickX and NunchuckStickY to control mecanum wheels. Other properties will probably also be used.
+    
     buttons = wii.state['buttons']
     NunchuckBTN = wii.state['nunchuk']['buttons']
     #X axis:LeftMax = 25, Middle = 125, RightMax = 225
@@ -46,11 +46,11 @@ while True:
     NunchukStickY = (wii.state['nunchuk']['stick'][cwiid.Y] - 128)
     #The nunchuk has an accelerometer that records in a similar manner to the wiimote, but the number range is different
     #The X range is: 70 if tilted 90 degrees to the left and 175 if tilted 90 degrees to the right
-    NAccx = (wii.state['nunchuk']['acc'][cwiid.X] - 127)
+    NAccx = (wii.state['nunchuk']['acc'][cwiid.X] - 130)
     #The Y range is: 70 if tilted 90 degrees down (the buttons pointing down), and 175 if tilted 90 degrees up (buttons pointing up)
     NAccy = (wii.state['nunchuk']['acc'][cwiid.Y] - 130) / 50
     #I still don't understand the z axis completely (on the wiimote and nunchuk), but as far as I can tell it's main change comes from directly pulling up the mote without tilting it
-    NAccz = (wii.state['nunchuk']['acc'][cwiid.Z] - 127)
+    NAccz = (wii.state['nunchuk']['acc'][cwiid.Z] - 130)
     forward = -(wii.state['acc'][cwiid.Y] - 125) /100 * 4
 
     if (forward > .96):
@@ -61,8 +61,6 @@ while True:
         NAccy  = .96
     if (NAccy < -.96):
         NAccy = -.96
-
-    # Detects whether + and - are held down and if they are it quits the program
 
     if (buttons & cwiid.BTN_B):
         moveR(forward)

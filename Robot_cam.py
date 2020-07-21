@@ -12,7 +12,7 @@ import logging
 import socketserver
 from threading import Condition
 from http import server
-
+#This is the html
 PAGE="""\
 <html>
 <head>
